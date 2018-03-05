@@ -1,4 +1,6 @@
 // #DCE test server
+// Run from dce modified module/engage-player-paella/gulpfile.js (after mvn clean install, run 'gulp server')
+// Example usage: http://127.0.0.1:3000/engage/player/watch.html?id=ee39049c-05f0-4d2b-94b4-625ce59f1b2b&logLevel=debug
 var express = require('express');
 var httpProxy = require('http-proxy');
 var https = require('https');
@@ -8,6 +10,9 @@ var jsonfile = require('jsonfile');
 
 var useHTTPS = false;
 var verbose = false;
+
+var dirname = __dirname;
+var buildDir = 'build/paella-opencast';
 
 if (process.argv.length > 2 && process.argv[2] === '--use-https') {
   useHTTPS = true;
@@ -22,49 +27,49 @@ var proxyOpts = {
 var mostRecentWatchReqUrl;
 
 var cannedEpisode = jsonfile.readFileSync(
-  // __dirname + '/fixtures/example-episode.json'
-  // __dirname + '/fixtures/example-live-episode.json'
-  //__dirname + '/fixtures/example-captions-episode.json'
-  __dirname + '/fixtures/example-empty-captions-episode.json'
-  // __dirname + '/fixtures/example-wideMonostream-episode.json'
-  //__dirname + '/fixtures/example-16x9Monostream-episode.json'
-  //__dirname + '/fixtures/example-empty-captions-episode-nocover.json'
+  // dirname + '/fixtures/example-episode.json'
+  // dirname + '/fixtures/example-live-episode.json'
+  //dirname + '/fixtures/example-captions-episode.json'
+  dirname + '/fixtures/example-empty-captions-episode.json'
+  // dirname + '/fixtures/example-wideMonostream-episode.json'
+  // dirname + '/fixtures/example-16x9Monostream-episode.json'
+  // dirname + '/fixtures/example-empty-captions-episode-nocover.json'
 );
 
 var cannedSeries = jsonfile.readFileSync(
-  __dirname + '/fixtures/example-search-series.json'
+  dirname + '/fixtures/example-search-series.json'
 );
 
 var cannedMe = jsonfile.readFileSync(
-  __dirname + '/fixtures/example-me.json'
+  dirname + '/fixtures/example-me.json'
 );
 
 var cannedCaptions = fs.readFileSync(
-  __dirname + '/fixtures/captions.dfxp'
+  dirname + '/fixtures/captions.dfxp'
 );
 
 var cannedEmptyCaptions = fs.readFileSync(
-  __dirname + '/fixtures/test-catalogs/emptyWatsonCatalog.xml'
+  dirname + '/fixtures/test-catalogs/emptyWatsonCatalog.xml'
 );
 
 var cannedAnnotations = fs.readFileSync(
-  __dirname + '/fixtures/example-paella-annotations.json'
+  dirname + '/fixtures/example-paella-annotations.json'
 );
 
 var cannedVisualAnnotations = fs.readFileSync(
-  __dirname + '/fixtures/example-paella-annotations-visual.json'
+  dirname + '/fixtures/example-paella-annotations-visual.json'
 );
 
 var cannedTimedComments = fs.readFileSync(
-  __dirname + '/fixtures/timedCommentsSample2017.json'
+  dirname + '/fixtures/timedCommentsSample2017.json'
 );
 
 var cannedComments = fs.readFileSync(
-  __dirname + '/fixtures/example-paella-annotations-comments.json'
+  dirname + '/fixtures/example-paella-annotations-comments.json'
 );
 
 var cannedHeartbeatFootprints = fs.readFileSync(
-  __dirname + '/fixtures/example-paella-footprint.json'
+  dirname + '/fixtures/example-paella-footprint.json'
 );
 
 var proxy = httpProxy.createProxyServer({
@@ -122,9 +127,9 @@ router.get('/footprint/*', swallow);
 //router.get('/*', passToProxy);
 
 // Serve /engage/player/* requests from the local build folder.
-app.use('/engage/player', express.static('build/paella-opencast'));
-app.use('/engage/player', express.static('build/paella-opencast/resources'));
-app.use('/engage/player/test_media', express.static('fixtures/test_media'));
+app.use('/engage/player', express.static(buildDir));
+app.use('/engage/player', express.static(buildDir + '/resources'));
+app.use('/engage/player/test_media', express.static(dirname + '/fixtures/test_media'));
 
 if (fs.existsSync('./static', fs.constants.R_OK | fs.constants.W_OK)) {
   app.use('/static', express.static('static'));
@@ -148,7 +153,7 @@ function swallow(req, res, next) {
 
 function episode(req, res) {
   var mpid = req.query.id;
-  var cannedAuthFixture = __dirname + '/fixtures/test-auth/'+ mpid + '.json';
+  var cannedAuthFixture = dirname + '/fixtures/test-auth/'+ mpid + '.json';
   if (fs.existsSync(cannedAuthFixture)) {
     log('Serving auth result.');
     var authResult = jsonfile.readFileSync(cannedAuthFixture);
@@ -215,8 +220,8 @@ function passToProxy(req, res) {
 }
 
 var httpsOpts = {
-  key: fs.readFileSync(__dirname + '/fixtures/test.key'),
-  cert: fs.readFileSync(__dirname + '/fixtures/test.crt')
+  key: fs.readFileSync(dirname + '/fixtures/test.key'),
+  cert: fs.readFileSync(dirname + '/fixtures/test.crt')
 };
 
 var server;
@@ -237,6 +242,5 @@ function log() {
 
 log('Listening on port 3000.');
 
-// Needed by test targets in Makefile.
 console.log(process.pid);
 
