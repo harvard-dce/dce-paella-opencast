@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8;" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="initial-scale=1.0" />
+		<title>DCE Video Player</title>
+		<script type="text/javascript" src="javascript/swfobject.js"></script>
+		<script type="text/javascript" src="javascript/traceur-compiler.js"></script>
+		<script type="text/javascript" src="javascript/base.js"></script>
+		<script type="text/javascript" src="javascript/jquery.js"></script>
+		<script type="text/javascript" src="javascript/lunr.min.js"></script>
+		<!-- DCE additional js start -->
+		<script type="text/javascript" src="mh_dce_resources/jquery-ui/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="resources/bootstrap/js/bootstrap.min.js"></script>
+		<!-- DCE additional js end -->
+		<!-- DCE adding require back in, UPV uses it to pull in dashjs -->
+		<script type="text/javascript" src="javascript/require.js"></script>
+		<script type="text/javascript" src="javascript/paella_player.js"></script>
+		<script type="text/javascript" src="javascript/app-index.js"></script>
+		<link rel="stylesheet" href="resources/bootstrap/css/bootstrap.min.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="mh_dce_resources/jquery-ui/jquery-ui.min.css" type="text/css" />
+		<!-- DCE style_cs50.css as default paellaSkin, also set in config -->
+		<link rel="stylesheet" href="resources/style/style_cs50.css" id="paellaSkin" type="text/css" media="screen" title="no title" charset="utf-8" />
+		<script>
+
+			// Sample implementation of the authentication URL callback.
+			// Put the callback name in config.json, auth.authCallbackName
+			function authenticationUrl(redirect) {
+				redirect = redirect ? "?redirect=" + encodeURIComponent(redirect): "";
+				return "https://www.upv.es/auth" + redirect;
+			}
+
+			// Sample implementation of the user data callback
+			// Put the callback name in config,json, auth.userDataCallbackName
+			function videoData(onSuccess) {
+				onSuccess({
+					permissions: {
+						canRead: true,
+						canContribute: false,
+						canWrite: false,
+						loadError: false,
+						isAnonymous: true
+					},
+					userData: {
+						username: 'anonymous',
+						name: 'Anonymous',
+						avatar: 'resources/images/default_avatar.png'
+					}
+				});
+			}
+
+			// Sample configuration to use this callbacks:
+			/*
+
+			 "auth":{
+			 	"authCallbackName":"authenticationUrl",
+			 	"userDataCallbackName":"videoData"
+			 }
+			 */
+		</script>
+	</head>
+    <body id="body" onload="loadOpencastPaellaDCE('playerContainer');;">
+		<div id="playerContainer" style="display:block;width:100%">
+		</div>
+	</body>
+</html>
