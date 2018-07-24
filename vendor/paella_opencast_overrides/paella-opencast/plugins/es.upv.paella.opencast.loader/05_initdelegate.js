@@ -1,3 +1,5 @@
+// #DCE override of modules/engage-paella-player/src/main/paella-opencast/plugins/es.upv.paella.opencast.loader/05_initdelegate.js
+// Override for DCE auth and DCE multi to single stream toggle prep
 
 function loadOpencastPaella(containerId) {
 	return paella.opencast.getEpisode()
@@ -6,9 +8,9 @@ function loadOpencastPaella(containerId) {
 			var converter = new OpencastToPaellaConverter();
 			var data = converter.convertToDataJson(episode);
 			if (data.streams.length < 1) {
-				paella.messageBox.showError("Error loading video! No streams found");
+				paella.messageBox.showError("Error loading video! video tracks found");
 			}
-			paella.load(containerId, {data:data});			
+			paella.load(containerId, {data:data});
 		},
 		function(){
 			var oacl = new OpencastAccessControl();		
