@@ -8,5 +8,14 @@
     "url": "https://github.com/harvard-dce/dce-paella-opencast.git"
   },
   "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "gulp-connect": "^5.7.0",
+    "gulp-live-server": "0.0.31",
+    "http": "0.0.0",
+    "http-proxy": "^1.16.2",
+    "https": "^1.0.0",
+    "jsonfile": "~2.2.1"
+  }
 }
