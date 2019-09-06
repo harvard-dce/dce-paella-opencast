@@ -1,4 +1,4 @@
-// #DCE OPC-357 overridding plugins/es.upv.defaultProfiles/main.js
+// #DCE OPC-374, OPC-357 overridding plugins/es.upv.defaultProfiles/main.js
 // for MATT-2502 adding 16x9+16x9 (3.55/1) monostream live stream ratio
 
 paella.addPlugin(function() {
@@ -46,10 +46,10 @@ paella.addPlugin(function() {
                                                 { aspectRatio:"2.35/1",left:0,top:87,width:1280,height:544 },
                                                 { aspectRatio:"2.41/1",left:0,top:94,width:1280,height:531 },
                                                 { aspectRatio:"2.76/1",left:0,top:128,width:1280,height:463 },
-                                                //#DCE MATT-2502 add 16x9+16x9 (3.55/1) monostream live stream ratio
-					                                      // Using "top:0", because relative resize box is also being overridden to 3.55/1
-					                                      { aspectRatio:"3.55/1",left:0,top:0,width:960,height:270 },
-					                                      // end #DCE
+                                                //#DCE MATT-2502, OPC-374 add 16x9+16x9 (3.55/1) monostream live stream ratio
+                                                // Using "top:0", because relative resize box is also being overridden to 3.55/1
+                                                { aspectRatio:"3.55/1",left:0,top:0,width:960,height:270 }
+                                                // end #DCE
                                             ],
                                             visible:true,
                                             layer:1

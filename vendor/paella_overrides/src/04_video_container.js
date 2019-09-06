@@ -14,7 +14,7 @@
 	permissions and limitations under the License.
 */
 
-/* #DCE OPC-357 MATT-2502 override default video rectangle dimensions to fit extra wide live combo */
+/* #DCE OPC-374, OPC-357 MATT-2502 override default video rectangle dimensions to fit extra wide live combo */
 
 (() => {
 
@@ -156,14 +156,12 @@ class VideoWrapper extends paella.DomNode {
 		// *ONLY* for the extra short and wide "3.55/1" ratio, 16x9+16x9 (32x9), DCE live stream.
 		// The override has to be set globally for access by all instances of new paella.RelativeVideoSize().
 		if (paella.dce && paella.player.videoContainer.isMonostream && rect.aspectRatio == "3.55/1") {
-                  // #DCE old style intercept of the paella.RelativeVideoSize()
-		  // paella.dce.relativeVideoSize = paella.dce.relativeVideoSize || {};
-		  // paella.dce.relativeVideoSize.h=rect.height;
-		  // paella.dce.relativeVideoSize.w=rect.width;
-                  // #DCE OPC-357 TODO: hoping the following is enough to override the 
-                  // existing instance(s) of RelativeVideoSize, such as the one here in this method
-		  paella.RelativeVideoSize.h = rect.height;
-		  paella.RelativeVideoSize.w = rect.width;
+		  // #DCE MH-relative size old style intercept of the paella.RelativeVideoSize()
+		  // #DCE OPC-357 TODO: hoping RelativeVideoSize.w and h can be overridden in newer Paella
+		  // [followup] Sadly no, still needed for UPV Paella v6.2.0
+		  paella.dce.relativeVideoSize = paella.dce.relativeVideoSize || {};
+		  paella.dce.relativeVideoSize.h=rect.height;
+		  paella.dce.relativeVideoSize.w=rect.width;
 		}
 		var percentTop = relativeSize.percentVSize(rect.top) + '%';
 		var percentLeft = relativeSize.percentWSize(rect.left) + '%';
