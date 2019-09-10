@@ -56,7 +56,7 @@ paella.addPlugin(function() {
                                         }
                                     ],
                                     background:{content:"slide_professor_paella.jpg",zIndex:5,rect:{left:0,top:0,width:1280,height:720},visible:true,layer:0},
-                                    logos:[{content:"paella_logo.png",zIndex:5,rect:{top:10,left:10,width:49,height:42}}],
+                                    logos:[], //#DCE OPC-374 hide paella logo overlay :(
                                     buttons: [],
                                     onApply: function() {
                                     }
