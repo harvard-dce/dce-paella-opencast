@@ -8,7 +8,7 @@ paella.addPlugin(function() {
 		//getButtonType() { return paella.ButtonPlugin.type.popUpButton; }
 		getDefaultToolTip() { return base.dictionary.translate("Volume"); }
 		getIndex() {return 220;} //#DCE OPC-374 allow the expand in-line but mitigate impact by only pushing scrub bar
-		// getAriaLabel() { return base.dictionary.translate("Volume"); } //#DCE OPC-374 keep as button for DCE flex style
+		getAriaLabel() { return base.dictionary.translate("Volume"); } //#DCE OPC-374 keep arial label, button element added to DCE CS50 flex style
 
 		
 		//closeOnMouseOut() { return true; }
