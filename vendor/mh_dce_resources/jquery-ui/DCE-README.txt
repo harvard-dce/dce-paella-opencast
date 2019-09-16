@@ -1,1 +1,0 @@
-The jquery-ui supports the DCE social annotations plugin draggable and sizable popup window.

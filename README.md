@@ -1,6 +1,14 @@
 dce-paella-opencast
 =====================
 
+Deprecated
+-----------
+As of Sept 2019 the paella-opencast overrides are applied over the engage-paella-player module in the DCE repo.
+This is to simply upgrades to the Opencast paella code base and reduce the repo dependency chain.
+
+========================
+Formally...
+
 This module contains [Harvard DCE](http://www.dce.harvard.edu/)-specific extensions to the [Opencast Paella video player bridging code](https://github.com/opencast/opencast/tree/develop/modules/engage-paella-player).
 
 It is not a standard Node or browser module (as of now), but rather, a way to package extensions for the build process so that we can avoid maintaining custom commits over the Opencast fork.
