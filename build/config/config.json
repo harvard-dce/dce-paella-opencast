@@ -152,6 +152,9 @@
       "edu.harvard.dce.paella.presentationOnlyPlugin": {
          "enabled": false
       },
+      "edu.harvard.dce.paella.singleVideoTogglePlugin": {
+         "enabled": true
+      },
       "edu.harvard.dce.paella.flexSkipPlugin": {
         "enabled": true,
         "direction": "Rewind",
@@ -305,9 +308,6 @@
       },
       "edu.harvard.dce.paella.viewModeTogglePlugin": {
         "enabled": true
-      },
-      "edu.harvard.dce.paella.singleVideoTogglePlugin": {
-        "enabled": false
       },
       "es.upv.paella.socialPlugin": {
         "enabled": false
