@@ -23,7 +23,7 @@ var GlobalParams = {
 };
 window.paella = window.paella || {};
 paella.player = null;
-paella.version = "6.2.2 - build: 4eb21d9208";
+paella.version = "6.2.2 - build: 71a480c388";
 
 (function buildBaseUrl() {
   if (window.paella_debug_baseUrl) {
@@ -9342,7 +9342,7 @@ paella.addPlugin(function () {
       self._hasTranscriptText = paella.captions.getCaptions(id)._captions !== undefined;
 
       if (!self._hasTranscriptText) {
-        // don't do binds when not transcode text to scroll
+        // don't do binds when no transcode text to scroll
         return;
       } // end  MATT-2219
       //BINDS
@@ -9436,10 +9436,16 @@ paella.addPlugin(function () {
 
     onCaptionAdded(obj) {
       var thisClass = this;
-      var newCap = paella.captions.getCaptions(obj);
+      var newCap = paella.captions.getCaptions(obj); // #DCE Do not replace existing captions when toggling single-view video (DCE specific).
+
+      if (obj && thisClass._select.options && thisClass._select.options.length > 0 && $(`.captionsSelector option[value='${obj}']`).length > 0) {
+        return;
+      }
+
       var defOption = document.createElement("option"); // NO ONE SELECT
 
-      defOption.text = newCap._lang.txt;
+      defOption.text = newCap._lang.txt; // #DCE WARN, the txt is a language, not On/Off.
+
       defOption.value = obj;
 
       thisClass._select.add(defOption);
