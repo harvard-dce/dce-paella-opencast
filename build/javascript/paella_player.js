@@ -23,7 +23,7 @@ var GlobalParams = {
 };
 window.paella = window.paella || {};
 paella.player = null;
-paella.version = "6.2.2 - build: 71a480c388";
+paella.version = "6.2.2 - build: 5787a00293";
 
 (function buildBaseUrl() {
   if (window.paella_debug_baseUrl) {
@@ -7191,7 +7191,34 @@ function paella_DeferredNotImplemented() {
     showPopUp(identifier, button) {
       this.popUpPluginContainer.showContainer(identifier, button);
       this.timeLinePluginContainer.showContainer(identifier, button);
-    }
+      this.hideCrossTimelinePopupButtons(identifier, this.popUpPluginContainer, this.timeLinePluginContainer);
+    } // #DCE OPC-407 close popups across popup type:
+    // hide popUpPluginContainer popups when timeLinePluginContainer popup is active and visa versa
+
+
+    hideCrossTimelinePopupButtons(identifier, popupContainer, timelineContainer) {
+      var container = popupContainer.containers[identifier];
+      var prevContainer = timelineContainer.containers[timelineContainer.currentContainerId];
+
+      if (container && prevContainer) {
+        prevContainer.button.className = prevContainer.button.className.replace(' selected', '');
+        paella.events.trigger(paella.events.hidePopUp, {
+          container: prevContainer
+        });
+        prevContainer.plugin.willHideContent();
+        $(prevContainer.element).hide();
+        prevContainer.plugin.didHideContent();
+        return;
+      }
+
+      container = timelineContainer.containers[identifier];
+      prevContainer = popupContainer.containers[popupContainer.currentContainerId];
+
+      if (container && prevContainer) {
+        popupContainer.hideContainer(prevContainer.identifier);
+      }
+    } // #DCE end closing popups across popup type
+
 
     hidePopUp(identifier, button) {
       this.popUpPluginContainer.hideContainer(identifier, button);
