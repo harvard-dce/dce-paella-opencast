@@ -23,7 +23,7 @@ var GlobalParams = {
 };
 window.paella = window.paella || {};
 paella.player = null;
-paella.version = "6.2.2 - build: 5787a00293";
+paella.version = "6.2.2 - build: 1217697533";
 
 (function buildBaseUrl() {
   if (window.paella_debug_baseUrl) {
@@ -2710,7 +2710,7 @@ function paella_DeferredNotImplemented() {
 
 
       this.debugEventVideoStatus = event => {
-        base.log.debug(`HTML5: video event '${event}' on '${this.stream.content}' (${this.video.id}) videoCurrentTime '${this.video.currentTime}' videoSeekingFlag = ${this._isSeeking} videoPaused = ${this.video.paused}`);
+        base.log.debug(`HTML5: video event '${event}' on '${this.stream.content}' (${this._identifier})  videoSeekingFlag = ${this._isSeeking}`);
       };
 
       let evtCallback = event => {
@@ -2922,7 +2922,7 @@ function paella_DeferredNotImplemented() {
 
     disable(isMainAudioPlayer) {
       // #DCE OPC-393
-      base.log.debug(`PROFILE: About to disabled '${this.video.id}' '${this._stream.content}', isMainAudioPlayer=${isMainAudioPlayer}`);
+      base.log.debug(`PROFILE: About to disabled '${this._identifier}' '${this._stream.content}', isMainAudioPlayer=${isMainAudioPlayer}`);
       if (isMainAudioPlayer) return;
       this._isDisabled = true;
       this._playState = !this.video.paused;
@@ -2931,7 +2931,7 @@ function paella_DeferredNotImplemented() {
 
     enable(isMainAudioPlayer) {
       // #DCE OPC-393
-      base.log.debug(`PROFILE: About to enable '${this.video.id}' '${this._stream.content}', isMainAudioPlayer=${isMainAudioPlayer}`);
+      base.log.debug(`PROFILE: About to enable '${this._identifier}' '${this._stream.content}', isMainAudioPlayer=${isMainAudioPlayer}`);
       if (isMainAudioPlayer || !this._isDisabled) return;
       this._isDisabled = false;
       let This = this;
@@ -2949,7 +2949,7 @@ function paella_DeferredNotImplemented() {
 
         if (paused) {
           if (This._playState) {
-            base.log.debug(`PROFILE: Video '${This.video.id}' '${This._stream.content}' was playing, but leaving it in paused state like the main video.`);
+            base.log.debug(`PROFILE: Video '${This._identifier}' '${This._stream.content}' was playing, but leaving it in paused state like the main video.`);
           } // and make sure it's really paused
 
 
@@ -2971,7 +2971,7 @@ function paella_DeferredNotImplemented() {
             result.push(this._getQualityObject(index, s));
           }); // #DCE OPC-407
 
-          base.log.debug(`HTML5 Resolving '${result.length}' getQualities for '${this.video.id}'  '${this.stream.content}'`);
+          base.log.debug(`HTML5 Resolving '${result.length}' getQualities for '${this._identifier}'  '${this.stream.content}'`);
           resolve(result);
         }, 10);
       });
@@ -3053,7 +3053,7 @@ function paella_DeferredNotImplemented() {
         base.log.debug(`HTML5: in setCurrentTime for '${this.stream.content}' time '${time}' is already seeking = ${this._isSeeking}`);
 
         let onSeek = function () {
-          base.log.debug(`HTML5: "seeked" event, before isPaused Test, seekToTime= ${time} '${This.stream.content}', currentTime = ${This.video.currentTime}`);
+          base.log.debug(`HTML5: "seeked" event, before isPaused Test, seekToTime= ${time} '${This.stream.content}'`);
           This._isSeeking = false;
           This.getVideoData().then(videoData => {
             if (!paused) {
@@ -3156,7 +3156,7 @@ function paella_DeferredNotImplemented() {
 
     unFreeze() {
       return this._deferredAction(() => {
-        var c = document.getElementById(this.video.id + "canvas");
+        var c = document.getElementById(this._identifier + "canvas");
 
         if (c) {
           $(c).remove();
@@ -3168,7 +3168,7 @@ function paella_DeferredNotImplemented() {
       var This = this;
       return this._deferredAction(function () {
         var canvas = document.createElement("canvas");
-        canvas.id = This.video.id + "canvas";
+        canvas.id = This._identifier + "canvas";
         canvas.className = "freezeFrame";
         canvas.width = This.video.videoWidth;
         canvas.height = This.video.videoHeight;
@@ -3956,9 +3956,9 @@ function paella_DeferredNotImplemented() {
 
       seekingCount = this._seekingPlayers.size;
       waitingForPlayCount = this._waitingToPlayPlayers.size;
-      base.log.debug(`HTML5: PLAY? playIfNonAreSeeking '${player.stream.content}' at '${player.video.currentTime}', seeking players: '${seekingCount}', waiting to player players: '${waitingForPlayCount}'.`); // #DCE OPC-407 helpful debugging
+      base.log.debug(`HTML5: PLAY? playIfNonAreSeeking '${player.stream.content}' ('${player._identifier}'), seeking players: '${seekingCount}', waiting to player players: '${waitingForPlayCount}'.`); // #DCE OPC-407 helpful debugging
 
-      this._waitingToPlayPlayers.forEach(p => base.log.debug(`HTML5: PLAY? Waiting to Play '${p.stream.content}' at time '${p.video.currentTime}'`));
+      this._waitingToPlayPlayers.forEach(p => base.log.debug(`HTML5: PLAY? Waiting to Play '${p.stream.content}'`));
 
       this._seekingPlayers.forEach(p => base.log.debug(`HTML5: PLAY? Still seeking '${p.stream.content}'`));
 
@@ -3968,7 +3968,7 @@ function paella_DeferredNotImplemented() {
             let timeOffset = Math.abs(p.video.currentTime - currentTime);
 
             if (timeOffset > 0.5) {
-              base.log.debug(`HTML5: PLAY? compensating for time offset '${timeOffset}' for '${p.stream.content}' '${p.video.id}' at '${p.video.currentTime}'.`);
+              base.log.debug(`HTML5: PLAY? compensating for time offset '${timeOffset}' for '${p.stream.content}' '${p._identifier}'.`);
               p.video.currentTime = currentTime;
             }
 
@@ -4022,13 +4022,17 @@ function paella_DeferredNotImplemented() {
         let seekTime = shortbuffer;
         let isPaused = videoData.paused;
         streams.forEach(v => {
+          if (paella.player.videoContainer.isMonostream || !v.video) {
+            return;
+          }
+
           if (v._isSeeking) {
-            base.log.debug(`HTML5: Not synching video=${v.video.id}, content=${v._stream.content} it is already seeking`);
+            base.log.debug(`HTML5: Not synching video=${v._identifier}, content=${v._stream.content} is already seeking`);
             return;
           }
 
           let diff = Math.abs(v.video.currentTime - currentTime);
-          base.log.debug(`HTML5-SYNC: About to check sync on '${v._stream.content}' (${v.video.id}) paused='${v.video.paused}' timediff=${diff} currentTime=${v.video.currentTime}`);
+          base.log.debug(`HTML5-SYNC: About to check sync on '${v._stream.content}' (${v._identifier}) paused='${v.video.paused}' timediff=${diff} currentTime=${v.video.currentTime}`);
 
           if (v !== paella.player.videoContainer.streamProvider.mainAudioPlayer && !v.video.paused && diff > self._maxSyncDelay) {
             let seekTime = shortbuffer > currentTime ? shortbuffer : parseFloat(currentTime).toFixed(3);
@@ -4037,7 +4041,7 @@ function paella_DeferredNotImplemented() {
               seekTime += self._maxSyncDelay - shortbuffer; // add future buffer to catch running audio
             }
 
-            base.log.debug(`HTML5: About to sync '${v._stream.content}' (${v.video.id}) paused=${v.video.paused}, timediff=${diff}, settingToTime=${seekTime}`);
+            base.log.debug(`HTML5: About to sync '${v._stream.content}' (${v._identifier}) paused=${v.video.paused}, timediff=${diff}, settingToTime=${seekTime}`);
             updated.push(v);
             promises.push(v.setCurrentTime(seekTime));
             self._syncHits++;
@@ -4521,11 +4525,11 @@ function paella_DeferredNotImplemented() {
 
       this.players.forEach(player => {
         promises.push(player[fnName](...functionArguments));
-        base.log.debug(`HTML5: Video pushing promise '${fnName}' args '${functionArguments}' on player '${player.stream.content}' '${player.video.id}', currentTime: ${player.video.currentTime}`);
+        base.log.debug(`HTML5: Video pushing promise '${fnName}' args '${functionArguments}' on player '${player.stream.content}' '${player._identifier}'`);
       });
       return new Promise((resolve, reject) => {
         Promise.all(promises).then(() => {
-          base.log.debug(`HTML5: promises finished '${fnName}' args '${functionArguments}', the main currentTime is: ${this._mainPlayer.video.currentTime}`);
+          base.log.debug(`HTML5: promises finished '${fnName}' args '${functionArguments}'`);
 
           if (fnName == 'play' && !this._firstPlay) {
             this._firstPlay = true;
@@ -8053,6 +8057,13 @@ function paella_DeferredNotImplemented() {
 	or implied. See the License for the specific language governing
 	permissions and limitations under the License.
 */
+
+/*
+ * #DCE OPC-407 overriding 09_paella_player UPV 6.2.2 goFullScreen() to revert it to Paella5x version of only checking iOS.
+ * Removing the "&& (paella.utils.userAgent.browser.Version.major < 12 || !paella.utils.userAgent.system.iPad)"
+ * Because it prevents fullscreen for FireFox and Chrome for iOS iPad.
+ * NOTE: DCE config disables reload on full screen, the possible reason that fullsreen is working on iPad < 13. *Still in test for iOS 13 iPad*
+ */
 (() => {
   class PaellaPlayer extends paella.PlayerBase {
     getPlayerMode() {
@@ -8123,7 +8134,8 @@ function paella_DeferredNotImplemented() {
 
     goFullScreen() {
       if (!this.isFullScreen()) {
-        if (base.userAgent.system.iOS && (paella.utils.userAgent.browser.Version.major < 12 || !paella.utils.userAgent.system.iPad)) {
+        // #DCE OPC-407 revert to UPV Paella 5x
+        if (base.userAgent.system.iOS) {
           paella.player.videoContainer.masterVideo().goFullScreen();
         } else {
           var fs = document.getElementById(paella.player.mainContainer.id);
@@ -9571,7 +9583,7 @@ paella.addPlugin(function () {
       var thisClass = this; //captions CONTAINER
 
       thisClass._parent = document.createElement('div');
-      thisClass._parent.className = 'captionsPluginContainer'; //captions BAR
+      thisClass._parent.className = 'dceCaptionsPluginContainer'; //captions BAR
 
       thisClass._bar = document.createElement('div');
       thisClass._bar.className = 'dceCaptionsBar'; //captions BODY
@@ -11083,6 +11095,71 @@ paella.addPlugin(function () {
         paella.player.onresize();
       }, 1000);
       timer.repeat = false;
+    }
+
+  };
+});
+// MATT-2192 Safari version 10.0.1 control bar disappears after exiting full. This is temp fix (bug was submitted via Apple developer)
+// Adapted for Paella 6.2.2  (Safari iOS fullscreen icon disappears after exiting fullscreen)
+paella.addPlugin(function () {
+  return class Safari10ExitFullScreenControlBarMagicFix extends paella.EventDrivenPlugin {
+    constructor() {
+      super();
+    }
+
+    getName() {
+      return "edu.harvard.dce.safari10ExitFullScreenControlBarMagicFix";
+    }
+
+    getEvents() {
+      return [paella.events.exitFullscreen];
+    }
+
+    onEvent(eventType, params) {
+      this.magicFix();
+    }
+
+    checkEnabled(onSuccess) {
+      // Only for Safari
+      if (base.userAgent.browser.Safari) {
+        onSuccess(true);
+      } else {
+        onSuccess(false);
+      }
+    }
+
+    magicFix() {
+      if ($("#playerContainer_controls").length == 0) return;
+      var self = this;
+      var randomSmallMaxHeight = "6px";
+      var safariMagicDelayInMs = 1000;
+      var maxHeightOrig = $("#playerContainer_controls").css("max-height");
+      $("#playerContainer_controls").css({
+        "max-height": randomSmallMaxHeight
+      }); // Do the magic pause!
+
+      setTimeout(function () {
+        self.resetMaxHeight(maxHeightOrig);
+
+        if (base.userAgent.system.iOS) {
+          // Mitigate missing fullScreen icon on exiting full screen in Safari iOS
+          self.retryOnExitFullScreen();
+        }
+      }, safariMagicDelayInMs);
+    }
+
+    resetMaxHeight(maxHeightOrig) {
+      $("#playerContainer_controls").css({
+        "max-height": maxHeightOrig
+      });
+    }
+
+    retryOnExitFullScreen() {
+      let fullScreenPlugin = paella.pluginManager.pluginList.find(p => p.getName() === "es.upv.paella.fullScreenButtonPlugin");
+
+      if (fullScreenPlugin && fullScreenPlugin.onExitFullscreen) {
+        fullScreenPlugin.onExitFullscreen();
+      }
     }
 
   };

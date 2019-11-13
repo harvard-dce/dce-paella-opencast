@@ -358,9 +358,12 @@
         "enabled": true
       },
       "edu.harvard.dce.paella.iphonePluginDisablerPlugin": {
-        "** TODO: to test if still needs to be enabled": "fullScreenPlugin.getMinWindowSize & frameControlPlugin.getMinWindowSize to 10000",
+        "** Disabling for 6x": "fullScreenPlugin.getMinWindowSize & frameControlPlugin.getMinWindowSize to 10000",
         "enabled": false,
         "actiondelay":200
+      },
+      "edu.harvard.dce.safari10ExitFullScreenControlBarMagicFix": {
+        "enabled": true
       },
       "//*****  Keyboard plugins": "",
       "es.upv.paella.defaultKeysPlugin": {"enabled": true }

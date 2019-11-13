@@ -2362,9 +2362,18 @@ body {
   font-style: oblique;
   font-size: 10px;
 }
-.captionsPluginContainer {
-  width: 400px;
+.dceCaptionsPluginContainer {
   overflow: hidden;
+}
+@media (max-width: 600px) {
+  .dceCaptionsPluginContainer {
+    width: 80vw;
+  }
+}
+@media (min-width: 601px) {
+  .dceCaptionsPluginContainer {
+    width: 400px;
+  }
 }
 .dceCaptionsBody {
   max-height: 280px;
@@ -2785,6 +2794,23 @@ dialog-form-alias > div.ui-dialog-buttonset {
 .buttonPlugin.viewModeToggleButton {
   background-position: -1100% 0%;
 }
+.buttonPlugin.arrowSlideNavidator.nextButton {
+  pointer-events: all !important;
+  font-size: 30px;
+  text-shadow: 0px 0px 8px white;
+}
+.buttonPlugin.arrowSlideNavidator.prevButton {
+  pointer-events: all !important;
+  font-size: 30px;
+  text-shadow: 0px 0px 8px white;
+}
+.arrow-slide-navigator-container {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+}
 .buttonPlugin.audioTags {
   text-align: center;
   background-position: -900% -200%;
@@ -2805,23 +2831,6 @@ dialog-form-alias > div.ui-dialog-buttonset {
 }
 .videoAudioTrackItem:hover {
   background-color: #cc0000;
-}
-.buttonPlugin.arrowSlideNavidator.nextButton {
-  pointer-events: all !important;
-  font-size: 30px;
-  text-shadow: 0px 0px 8px white;
-}
-.buttonPlugin.arrowSlideNavidator.prevButton {
-  pointer-events: all !important;
-  font-size: 30px;
-  text-shadow: 0px 0px 8px white;
-}
-.arrow-slide-navigator-container {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  bottom: 0px;
-  right: 0px;
 }
 .blackBoardDiv {
   position: absolute;
@@ -3230,14 +3239,14 @@ textarea {
 .enabledFrameThumbnail:hover {
   border: 3px #cc0000 solid;
 }
-.buttonPlugin.helpButton {
-  background-position: -1300% 0%;
-}
 .buttonPlugin.showFullScreenButton {
   background-position: -900% 0%;
 }
 .buttonPlugin.showFullScreenButton.active {
   background-position: -1000% 0%;
+}
+.buttonPlugin.helpButton {
+  background-position: -1300% 0%;
 }
 .buttonPlugin.right.liveIndicator {
   width: 100px;
@@ -3246,32 +3255,6 @@ textarea {
   background-size: 100% 100%;
   margin-top: 5px;
   margin-right: 5px;
-}
-.showMHDescriptionTabBarLeft {
-  display: inline-block;
-  width: 50%;
-  margin: 0;
-  padding: 0;
-  vertical-align: top;
-}
-.showMHDescriptionTabBarRight {
-  display: inline-block;
-  width: 50%;
-  margin: 0;
-  padding: 0;
-  vertical-align: top;
-}
-.showMHDescriptionTabBarElement {
-  color: white;
-  margin-bottom: 2px;
-}
-.showMHDescriptionTabBarValue {
-  margin-left: 3px;
-  color: lightgrey;
-}
-.showMHDescriptionTabBarValue > a,
-.showMHDescriptionTabBarValue > a:visited {
-  color: lightsalmon;
 }
 /*.showMultipleQualitiesPlugin {
 	background-image: url(advanced_button.png);
@@ -3311,6 +3294,32 @@ textarea {
 }
 .multipleQualityItem.selected:hover {
   color: white;
+}
+.showMHDescriptionTabBarLeft {
+  display: inline-block;
+  width: 50%;
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+}
+.showMHDescriptionTabBarRight {
+  display: inline-block;
+  width: 50%;
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+}
+.showMHDescriptionTabBarElement {
+  color: white;
+  margin-bottom: 2px;
+}
+.showMHDescriptionTabBarValue {
+  margin-left: 3px;
+  color: lightgrey;
+}
+.showMHDescriptionTabBarValue > a,
+.showMHDescriptionTabBarValue > a:visited {
+  color: lightsalmon;
 }
 .downloadsTabBarContainer {
   margin-bottom: 9px;
@@ -3792,6 +3801,27 @@ svg rect {
 .noResults {
   margin: 5px;
 }
+.buttonPlugin.themeChooserPlugin {
+  background-position: -800% -100%;
+}
+.buttonPluginPopUp.themeChooserPlugin {
+  background-image: none;
+  min-width: 40px;
+  width: 120px;
+  text-align: right;
+}
+.buttonPluginPopUp.themeChooserPlugin .themebutton {
+  cursor: pointer;
+  text-align: left;
+  text-transform: capitalize;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+.buttonPluginPopUp.themeChooserPlugin .themebutton:hover {
+  background-color: #FF4C4C;
+}
 .buttonPlugin.showSocialPluginButton {
   background-position: -800% 0%;
 }
@@ -3845,27 +3875,6 @@ svg rect {
   font-size: 12px;
   margin: 0px;
   padding: 0px;
-}
-.buttonPlugin.themeChooserPlugin {
-  background-position: -800% -100%;
-}
-.buttonPluginPopUp.themeChooserPlugin {
-  background-image: none;
-  min-width: 40px;
-  width: 120px;
-  text-align: right;
-}
-.buttonPluginPopUp.themeChooserPlugin .themebutton {
-  cursor: pointer;
-  text-align: left;
-  text-transform: capitalize;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 3px;
-  padding-bottom: 3px;
-}
-.buttonPluginPopUp.themeChooserPlugin .themebutton:hover {
-  background-color: #FF4C4C;
 }
 .translecturesCaptionsMessageBox {
   margin-left: auto;
