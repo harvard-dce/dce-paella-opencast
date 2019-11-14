@@ -23,7 +23,7 @@ var GlobalParams = {
 };
 window.paella = window.paella || {};
 paella.player = null;
-paella.version = "6.2.2 - build: 1217697533";
+paella.version = "6.2.2 - build: d3af6729e9";
 
 (function buildBaseUrl() {
   if (window.paella_debug_baseUrl) {
@@ -4685,6 +4685,7 @@ function paella_DeferredNotImplemented() {
 
     setCurrentTime(time) {
       return new Promise((resolve, reject) => {
+        let wasPlaying = false;
         this.trimming().then(trimmingData => {
           if (trimmingData.enabled) {
             time += trimmingData.start;
@@ -4696,9 +4697,26 @@ function paella_DeferredNotImplemented() {
             if (time > trimmingData.end) {
               time = trimmingData.end;
             }
-          }
+          } //#DCE OPC-407 pause if not already paused before setting time
 
+
+          return this.paused();
+        }).then(paused => {
+          if (!paused) {
+            wasPlaying = true;
+            return this.pause();
+          } else {
+            return Promise.resolve();
+          }
+        }).then(() => {
           return this.streamProvider.callPlayerFunction('setCurrentTime', time);
+        }).then(() => {
+          //#DCE OPC-407 play if was playing before setting time
+          if (wasPlaying) {
+            return this.play();
+          } else {
+            return Promise.resolve();
+          }
         }).then(() => {
           return this.duration(false);
         }).then(duration => {
@@ -9561,7 +9579,7 @@ paella.addPlugin(function () {
 
     onOpen() {
       if (this._browserLang && paella.captions.getActiveCaptions() == undefined) {
-        this.selectDefaultBrowserLang(this._browserLang);
+        this.selectDefaultOrBrowserLang(this._browserLang);
       } // OPC-407 re-enable existing captions on click open
 
 
@@ -9710,17 +9728,20 @@ paella.addPlugin(function () {
       });
     }
 
-    selectDefaultBrowserLang(code) {
+    selectDefaultOrBrowserLang(code) {
       var thisClass = this;
       var provider = null;
+      var fallbackProvider = null;
       paella.captions.getAvailableLangs().forEach(function (l) {
-        if (l.lang.code == code) {
+        if (l.lang.code === code) {
           provider = l.id;
+        } else if (l.lang.code === paella.player.config.defaultCaptionLang) {
+          fallbackProvider = l.id;
         }
       });
 
-      if (provider) {
-        paella.captions.setActiveCaptions(provider);
+      if (provider || fallbackProvider) {
+        paella.captions.setActiveCaptions(provider || fallbackProvider);
       }
       /*
       else{

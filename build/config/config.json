@@ -47,6 +47,7 @@
     "audioMethods":[
        { "factory":"MultiformatAudioFactory", "enabled":true }
      ],
+     "defaultAudioTag": "en",
      "rtmpSettings": {
          "bufferTime": 5,
          "requiresSubscription": false

@@ -2811,6 +2811,26 @@ dialog-form-alias > div.ui-dialog-buttonset {
   bottom: 0px;
   right: 0px;
 }
+.blackBoardDiv {
+  position: absolute;
+  /* 16:9 */
+  width: 816px;
+  height: 459px;
+  top: 135px;
+  left: 450px;
+  background-size: 100%;
+}
+.lensClass {
+  background-color: rgba(255, 236, 195, 0.3);
+  position: absolute;
+  border: 1px dotted white;
+}
+.lensContainer img {
+  width: 100% !important;
+}
+#overlayContainer div.lensContainer {
+  pointer-events: all;
+}
 .buttonPlugin.audioTags {
   text-align: center;
   background-position: -900% -200%;
@@ -2831,26 +2851,6 @@ dialog-form-alias > div.ui-dialog-buttonset {
 }
 .videoAudioTrackItem:hover {
   background-color: #cc0000;
-}
-.blackBoardDiv {
-  position: absolute;
-  /* 16:9 */
-  width: 816px;
-  height: 459px;
-  top: 135px;
-  left: 450px;
-  background-size: 100%;
-}
-.lensClass {
-  background-color: rgba(255, 236, 195, 0.3);
-  position: absolute;
-  border: 1px dotted white;
-}
-.lensContainer img {
-  width: 100% !important;
-}
-#overlayContainer div.lensContainer {
-  pointer-events: all;
 }
 .textBreak {
   background-color: rgba(128, 128, 128, 0.7);
@@ -3801,27 +3801,6 @@ svg rect {
 .noResults {
   margin: 5px;
 }
-.buttonPlugin.themeChooserPlugin {
-  background-position: -800% -100%;
-}
-.buttonPluginPopUp.themeChooserPlugin {
-  background-image: none;
-  min-width: 40px;
-  width: 120px;
-  text-align: right;
-}
-.buttonPluginPopUp.themeChooserPlugin .themebutton {
-  cursor: pointer;
-  text-align: left;
-  text-transform: capitalize;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 3px;
-  padding-bottom: 3px;
-}
-.buttonPluginPopUp.themeChooserPlugin .themebutton:hover {
-  background-color: #FF4C4C;
-}
 .buttonPlugin.showSocialPluginButton {
   background-position: -800% 0%;
 }
@@ -3875,6 +3854,27 @@ svg rect {
   font-size: 12px;
   margin: 0px;
   padding: 0px;
+}
+.buttonPlugin.themeChooserPlugin {
+  background-position: -800% -100%;
+}
+.buttonPluginPopUp.themeChooserPlugin {
+  background-image: none;
+  min-width: 40px;
+  width: 120px;
+  text-align: right;
+}
+.buttonPluginPopUp.themeChooserPlugin .themebutton {
+  cursor: pointer;
+  text-align: left;
+  text-transform: capitalize;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+.buttonPluginPopUp.themeChooserPlugin .themebutton:hover {
+  background-color: #FF4C4C;
 }
 .translecturesCaptionsMessageBox {
   margin-left: auto;
