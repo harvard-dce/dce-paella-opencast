@@ -2334,7 +2334,7 @@ body {
 .dceCaptionsBar select {
   width: 39%;
   display: inline;
-  background-color: hsl(0, 0%, 15%);
+  background-color: #262626;
   border: 1px solid #ccc;
   color: white;
   margin-bottom: 0px;
@@ -2349,6 +2349,8 @@ body {
   background: url(../images/paella_icons_light.png);
   background-position: -900% -200%;
   background-size: 2000% 1000%;
+  position: static;
+  /* From UPV https://github.com/polimediaupv/paella/commit/7fc2a5ff13ba9415658d476294d697f925815897 */
 }
 .dceCaptionsBar button:hover {
   background-color: #faa166;
@@ -2360,9 +2362,18 @@ body {
   font-style: oblique;
   font-size: 10px;
 }
-.captionsPluginContainer {
-  width: 400px;
+.dceCaptionsPluginContainer {
   overflow: hidden;
+}
+@media (max-width: 600px) {
+  .dceCaptionsPluginContainer {
+    width: 80vw;
+  }
+}
+@media (min-width: 601px) {
+  .dceCaptionsPluginContainer {
+    width: 400px;
+  }
 }
 .dceCaptionsBody {
   max-height: 280px;
@@ -2379,7 +2390,7 @@ body {
   margin: 0;
 }
 .dceCaptionsBody .bodyInnerContainer:hover {
-  background-color: hsl(0, 0%, 40%);
+  background-color: #666666;
 }
 .dceCaptionsBody .bodyInnerContainer.Highlight {
   color: white;
@@ -2387,7 +2398,7 @@ body {
   padding-left: 0.5em;
   padding-top: 0.3em;
   padding-bottom: 0.3em;
-  border: 1px dotted hsl(0, 0%, 40%);
+  border: 1px dotted #666666;
 }
 ::-webkit-scrollbar {
   width: 8px;
@@ -2800,6 +2811,26 @@ dialog-form-alias > div.ui-dialog-buttonset {
   bottom: 0px;
   right: 0px;
 }
+.blackBoardDiv {
+  position: absolute;
+  /* 16:9 */
+  width: 816px;
+  height: 459px;
+  top: 135px;
+  left: 450px;
+  background-size: 100%;
+}
+.lensClass {
+  background-color: rgba(255, 236, 195, 0.3);
+  position: absolute;
+  border: 1px dotted white;
+}
+.lensContainer img {
+  width: 100% !important;
+}
+#overlayContainer div.lensContainer {
+  pointer-events: all;
+}
 .buttonPlugin.audioTags {
   text-align: center;
   background-position: -900% -200%;
@@ -2820,26 +2851,6 @@ dialog-form-alias > div.ui-dialog-buttonset {
 }
 .videoAudioTrackItem:hover {
   background-color: #cc0000;
-}
-.blackBoardDiv {
-  position: absolute;
-  /* 16:9 */
-  width: 816px;
-  height: 459px;
-  top: 135px;
-  left: 450px;
-  background-size: 100%;
-}
-.lensClass {
-  background-color: rgba(255, 236, 195, 0.3);
-  position: absolute;
-  border: 1px dotted white;
-}
-.lensContainer img {
-  width: 100% !important;
-}
-#overlayContainer div.lensContainer {
-  pointer-events: all;
 }
 .textBreak {
   background-color: rgba(128, 128, 128, 0.7);
@@ -3108,12 +3119,6 @@ textarea {
   overflow: hidden;
   display: inline-block;
 }
-.buttonPlugin.showFullScreenButton {
-  background-position: -900% 0%;
-}
-.buttonPlugin.showFullScreenButton.active {
-  background-position: -1000% 0%;
-}
 .frameControlContainer {
   height: 87px;
   width: 90%;
@@ -3234,6 +3239,12 @@ textarea {
 .enabledFrameThumbnail:hover {
   border: 3px #cc0000 solid;
 }
+.buttonPlugin.showFullScreenButton {
+  background-position: -900% 0%;
+}
+.buttonPlugin.showFullScreenButton.active {
+  background-position: -1000% 0%;
+}
 .buttonPlugin.helpButton {
   background-position: -1300% 0%;
 }
@@ -3283,6 +3294,32 @@ textarea {
 }
 .multipleQualityItem.selected:hover {
   color: white;
+}
+.showMHDescriptionTabBarLeft {
+  display: inline-block;
+  width: 50%;
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+}
+.showMHDescriptionTabBarRight {
+  display: inline-block;
+  width: 50%;
+  margin: 0;
+  padding: 0;
+  vertical-align: top;
+}
+.showMHDescriptionTabBarElement {
+  color: white;
+  margin-bottom: 2px;
+}
+.showMHDescriptionTabBarValue {
+  margin-left: 3px;
+  color: lightgrey;
+}
+.showMHDescriptionTabBarValue > a,
+.showMHDescriptionTabBarValue > a:visited {
+  color: lightsalmon;
 }
 .downloadsTabBarContainer {
   margin-bottom: 9px;
@@ -3494,32 +3531,6 @@ textarea {
 }
 recordings_entry_text_date {
   color: lightslategray;
-}
-.showMHDescriptionTabBarLeft {
-  display: inline-block;
-  width: 50%;
-  margin: 0;
-  padding: 0;
-  vertical-align: top;
-}
-.showMHDescriptionTabBarRight {
-  display: inline-block;
-  width: 50%;
-  margin: 0;
-  padding: 0;
-  vertical-align: top;
-}
-.showMHDescriptionTabBarElement {
-  color: white;
-  margin-bottom: 2px;
-}
-.showMHDescriptionTabBarValue {
-  margin-left: 3px;
-  color: lightgrey;
-}
-.showMHDescriptionTabBarValue > a,
-.showMHDescriptionTabBarValue > a:visited {
-  color: lightsalmon;
 }
 .buttonPlugin.logIn {
   background-color: rgba(0, 0, 0, 0.6);
